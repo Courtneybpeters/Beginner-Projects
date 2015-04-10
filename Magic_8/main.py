@@ -53,7 +53,7 @@ def main():
         within_quit = quit.in_rect(x, y)
 
         if within_ask:
-            answer.text = replies[random.randrange(len(replies) + 1)]
+            answer.text = replies[random.randrange(len(replies))]
         if within_clear:
             answer.text = ''
         if within_quit:
