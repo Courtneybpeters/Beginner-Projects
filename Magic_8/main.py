@@ -1,44 +1,66 @@
 # Magic 8 Ball program
 
 import pyglet
+import random
+import rectangle
 
 def main():
 
-    # Initialize window object and resize
+    # Initialize window object and set size
     window = pyglet.window.Window()
     window.set_size(576, 432)
 
     # Images
     background = pyglet.resource.image('magic8_blank.jpg')
-    ask = pyglet.resource.image('ask.png')
-    clear = pyglet.resource.image('clear.png')
-    quit = pyglet.resource.image('quit.png')
+    ask_img = pyglet.resource.image('ask.png')
+    clear_img = pyglet.resource.image('clear.png')
+    quit_img = pyglet.resource.image('quit.png')
 
-    # Image coordinates
-    y = 30
-    ask_x = 20
-    clear_x = 140
-    quit_x = 260
+    # Button rectangles
+    ask = rectangle.Rectangle(20, 30, 100, 30)
+    clear = rectangle.Rectangle(140, 30, 100, 30)
+    quit = rectangle.Rectangle(260, 30, 100, 30)
 
 
-    # label = pyglet.text.Label('Hello, World',
-    #                           font_name="Arial",
-    #                           font_size=36,
-    #                           x=window.width//2, y=window.height//2,
-    #                           anchor_x='center', anchor_y='center')
+    # Replies
+    replies = ['Definitely!', 'Possibly.', 'It\'s in the stars.', 'Nope.',
+               'Sorry.', 'No way.', 'No.', 'Yes', 'Try again.', 'Not this time.'
+               'Hmmm.', 'Of course.', 'Ha. ..Ha. Ha.', 'Oh yeah. Big time.',
+               'Can\'t say', 'Totally!', 'Yep.', 'Naturally, yes.', 'Ohh yeah.']
 
+    # 8 Ball Result
+    answer = pyglet.text.Label('',
+                              font_name="Arial",
+                              font_size=36,
+                              x=window.width//2, y=window.height//2,
+                              anchor_x='center', anchor_y='center')
+
+    # Drawing event handler
     @window.event
     def on_draw():
         window.clear()
         background.blit(0, 0)
-        ask.blit(ask_x, y)
-        clear.blit(clear_x, y)
-        quit.blit(quit_x, y)
+        ask_img.blit(ask.x, ask.y)
+        clear_img.blit(clear.x, clear.y)
+        quit_img.blit(quit.x, quit.y)
+        answer.draw()
 
+    # Button Press event handler
+    @window.event
+    def on_mouse_press(x, y, button, modifiers):
+        within_ask = ask.in_rect(x, y)
+        within_clear = clear.in_rect(x, y)
+        within_quit = quit.in_rect(x, y)
 
-    # Displays all events to console - find event names/parameters
+        if within_ask:
+            answer.text = replies[random.randrange(len(replies) + 1)]
+        if within_clear:
+            answer.text = ''
+        if within_quit:
+            pyglet.app.exit()
+
+    # Displays all events to console - find event names/parameters - debugging
     # window.push_handlers(pyglet.window.event.WindowEventLogger())
-
 
     pyglet.app.run()
 

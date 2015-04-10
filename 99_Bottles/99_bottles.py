@@ -14,8 +14,6 @@ def main():
             print "Take one down and pass it around,", bottles - 1, "bottle of beer on the wall."
             print
 
-
-
         else:
             print bottles, "bottles of beer on the wall,", bottles, "bottles of beer."
             print "Take one down and pass it around,", bottles - 1, "bottles of beer on the wall."
